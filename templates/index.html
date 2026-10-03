@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Agent | Groq + LangGraph</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+</head>
+
+
+<body>
+
+<!-- Animated Background -->
+
+<div class="background">
+
+    <div class="orb orb-1"></div>
+
+    <div class="orb orb-2"></div>
+
+    <div class="orb orb-3"></div>
+
+    <div class="grid-background"></div>
+
+</div>
+
+
+<div class="app">
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <h2>AI Agent</h2>
+
+            <span>Intelligent Assistant</span>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="new-chat"
+        onclick="newChat()"
+    >
+
+        <span>＋</span>
+
+        New Chat
+
+    </button>
+
+
+    <nav class="navigation">
+
+
+        <a
+            class="nav-item active"
+            onclick="showPage('chat', this)"
+        >
+
+            <span>💬</span>
+
+            Chat
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            onclick="showPage('agent', this)"
+        >
+
+            <span>🤖</span>
+
+            AI Agent
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            onclick="showPage('dashboard', this)"
+        >
+
+            <span>📊</span>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            onclick="showPage('settings', this)"
+        >
+
+            <span>⚙️</span>
+
+            Settings
+
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+
+        <div class="model-card">
+
+            <div class="model-header">
+
+                <div class="status-dot"></div>
+
+                <div>
+
+                    <strong>GPT-OSS 20B</strong>
+
+                    <small>
+                        Powered by Groq
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="model-status">
+
+                ⚡ Lightning Fast
+
+            </div>
+
+        </div>
+
+
+        <div class="connection">
+
+            <span class="online-dot"></span>
+
+            System Online
+
+        </div>
+
+
+    </div>
+
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+
+    <div class="topbar-left">
+
+        <div class="mobile-logo">
+            🤖
+        </div>
+
+        <div>
+
+            <h1 id="pageTitle">
+                AI Assistant
+            </h1>
+
+            <div class="online-status">
+
+                <span></span>
+
+                Online & Ready
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="topbar-actions">
+
+        <button
+            class="icon-button"
+            onclick="toggleTheme()"
+            title="Theme"
+        >
+            ☼
+        </button>
+
+
+        <button
+            class="icon-button"
+            onclick="newChat()"
+            title="New Chat"
+        >
+            ＋
+        </button>
+
+    </div>
+
+
+</header>
+
+
+<!-- ================================================= -->
+<!-- CHAT PAGE -->
+<!-- ================================================= -->
+
+<section
+    id="chatPage"
+    class="page active-page"
+>
+
+
+<div class="chat-container">
+
+
+<div id="chat" class="chat">
+
+
+<div
+    class="welcome"
+    id="welcome"
+>
+
+
+<div class="ai-avatar-large">
+
+    <div class="avatar-glow"></div>
+
+    <div class="avatar-ring"></div>
+
+    🤖
+
+</div>
+
+
+<div class="welcome-badge">
+
+    ✨ AI AGENT
+
+</div>
+
+
+<h2>
+
+    Hello! I'm your
+
+    <span>
+        AI Assistant
+    </span>
+
+</h2>
+
+
+<p>
+
+    Ask me anything. I can help you understand concepts,
+    write code, solve problems and explore ideas.
+
+</p>
+
+
+<div class="suggestions">
+
+
+<button
+    class="suggestion"
+    onclick="useSuggestion('Explain artificial intelligence in simple words')"
+>
+
+    <div class="suggestion-icon">
+        🧠
+    </div>
+
+    <div>
+
+        <strong>
+            Explain AI
+        </strong>
+
+        <small>
+            Learn AI in simple words
+        </small>
+
+    </div>
+
+</button>
+
+
+<button
+    class="suggestion"
+    onclick="useSuggestion('Write a Python program for a chatbot')"
+>
+
+    <div class="suggestion-icon">
+        💻
+    </div>
+
+    <div>
+
+        <strong>
+            Write Code
+        </strong>
+
+        <small>
+            Build something with Python
+        </small>
+
+    </div>
+
+</button>
+
+
+<button
+    class="suggestion"
+    onclick="useSuggestion('Give me 5 interesting facts about space')"
+>
+
+    <div class="suggestion-icon">
+        🚀
+    </div>
+
+    <div>
+
+        <strong>
+            Explore Ideas
+        </strong>
+
+        <small>
+            Discover something interesting
+        </small>
+
+    </div>
+
+</button>
+
+
+<button
+    class="suggestion"
+    onclick="useSuggestion('Give me a roadmap to learn Generative AI')"
+>
+
+    <div class="suggestion-icon">
+        🗺️
+    </div>
+
+    <div>
+
+        <strong>
+            Learning Roadmap
+        </strong>
+
+        <small>
+            Plan your AI journey
+        </small>
+
+    </div>
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<div class="input-section">
+
+
+<div class="input-wrapper">
+
+
+<textarea
+    id="message"
+    placeholder="Ask anything..."
+    rows="1"
+></textarea>
+
+
+<button
+    id="sendButton"
+    class="send-button"
+    onclick="sendMessage()"
+>
+
+    ➤
+
+</button>
+
+
+</div>
+
+
+<div class="input-info">
+
+<span>
+    Powered by Groq + LangChain + LangGraph
+</span>
+
+<span>
+    Enter ↵ to send
+</span>
+
+</div>
+
+
+<div class="disclaimer">
+
+    AI can make mistakes. Always verify important information.
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- AI AGENT PAGE -->
+<!-- ================================================= -->
+
+<section
+    id="agentPage"
+    class="page"
+>
+
+
+<div class="dashboard-page">
+
+
+<div class="page-heading">
+
+<div>
+
+<span class="page-label">
+    INTELLIGENCE
+</span>
+
+<h2>
+    AI Agent
+</h2>
+
+<p>
+    Monitor your AI agent and its architecture.
+</p>
+
+</div>
+
+
+<div class="live-badge">
+
+    <span></span>
+
+    Agent Active
+
+</div>
+
+</div>
+
+
+<div class="agent-layout">
+
+
+<!-- Agent visualization -->
+
+<div class="agent-visual-card">
+
+
+<div class="card-title">
+
+    <span>
+        🤖
+    </span>
+
+    Neural Agent
+
+</div>
+
+
+<div class="agent-core">
+
+
+<div class="pulse-ring ring-one"></div>
+
+<div class="pulse-ring ring-two"></div>
+
+<div class="pulse-ring ring-three"></div>
+
+
+<div class="core">
+
+    🤖
+
+</div>
+
+
+<div class="orbit orbit-one">
+
+    <span>⚡</span>
+
+</div>
+
+
+<div class="orbit orbit-two">
+
+    <span>🧠</span>
+
+</div>
+
+
+<div class="orbit orbit-three">
+
+    <span>🔗</span>
+
+</div>
+
+
+</div>
+
+
+<div class="agent-state">
+
+    <span class="state-dot"></span>
+
+    Processing Ready
+
+</div>
+
+
+</div>
+
+
+<!-- Architecture -->
+
+<div class="architecture-card">
+
+
+<div class="card-title">
+
+    <span>
+        🔗
+    </span>
+
+    Agent Architecture
+
+</div>
+
+
+<div class="architecture">
+
+
+<div class="architecture-node">
+
+    <div>👤</div>
+
+    <span>User</span>
+
+</div>
+
+
+<div class="architecture-line"></div>
+
+
+<div class="architecture-node purple">
+
+    <div>🧠</div>
+
+    <span>LangGraph</span>
+
+</div>
+
+
+<div class="architecture-line"></div>
+
+
+<div class="architecture-node cyan">
+
+    <div>⚡</div>
+
+    <span>Groq</span>
+
+</div>
+
+
+<div class="architecture-line"></div>
+
+
+<div class="architecture-node">
+
+    <div>🤖</div>
+
+    <span>Response</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<div class="agent-stats">
+
+
+<div class="mini-card">
+
+    <span>MODEL</span>
+
+    <strong>GPT-OSS 20B</strong>
+
+</div>
+
+
+<div class="mini-card">
+
+    <span>FRAMEWORK</span>
+
+    <strong>LangGraph</strong>
+
+</div>
+
+
+<div class="mini-card">
+
+    <span>MEMORY</span>
+
+    <strong>Enabled</strong>
+
+</div>
+
+
+<div class="mini-card">
+
+    <span>TOOLS</span>
+
+    <strong>0 Active</strong>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- DASHBOARD PAGE -->
+<!-- ================================================= -->
+
+<section
+    id="dashboardPage"
+    class="page"
+>
+
+
+<div class="dashboard-page">
+
+
+<div class="page-heading">
+
+<div>
+
+<span class="page-label">
+    OVERVIEW
+</span>
+
+<h2>
+    Dashboard
+</h2>
+
+<p>
+    Real-time overview of your AI assistant.
+</p>
+
+</div>
+
+
+<div class="live-badge">
+
+    <span></span>
+
+    System Online
+
+</div>
+
+</div>
+
+
+<!-- Statistics -->
+
+<div class="stats-grid">
+
+
+<div class="stat-card">
+
+<div class="stat-icon purple">
+    💬
+</div>
+
+<div>
+
+<span>
+    CONVERSATIONS
+</span>
+
+<strong id="conversationCount">
+    0
+</strong>
+
+<small>
+    Current session
+</small>
+
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon cyan">
+    ⚡
+</div>
+
+<div>
+
+<span>
+    RESPONSE
+</span>
+
+<strong>
+    Fast
+</strong>
+
+<small>
+    Powered by Groq
+</small>
+
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon pink">
+    🤖
+</div>
+
+<div>
+
+<span>
+    AI MODEL
+</span>
+
+<strong>
+    20B
+</strong>
+
+<small>
+    GPT-OSS
+</small>
+
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon green">
+    🟢
+</div>
+
+<div>
+
+<span>
+    STATUS
+</span>
+
+<strong>
+    Online
+</strong>
+
+<small>
+    All systems ready
+</small>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- Dashboard lower area -->
+
+<div class="dashboard-grid">
+
+
+<div class="activity-card">
+
+
+<div class="card-heading">
+
+<div>
+
+<h3>
+    System Activity
+</h3>
+
+<p>
+    Current AI pipeline
+</p>
+
+</div>
+
+<div class="activity-live">
+    LIVE
+</div>
+
+</div>
+
+
+<div class="activity">
+
+
+<div class="activity-item">
+
+<div class="activity-icon">
+    👤
+</div>
+
+<div>
+
+<strong>
+    User Interface
+</strong>
+
+<span>
+    Request received
+</span>
+
+</div>
+
+<div class="activity-status">
+    ✓
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-icon purple">
+    🧠
+</div>
+
+<div>
+
+<strong>
+    LangGraph Agent
+</strong>
+
+<span>
+    Agent ready
+</span>
+
+</div>
+
+<div class="activity-status">
+    ✓
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-icon cyan">
+    ⚡
+</div>
+
+<div>
+
+<strong>
+    Groq Inference
+</strong>
+
+<span>
+    High-speed inference
+</span>
+
+</div>
+
+<div class="activity-status">
+    ✓
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-icon green">
+    🤖
+</div>
+
+<div>
+
+<strong>
+    AI Response
+</strong>
+
+<span>
+    Response generation ready
+</span>
+
+</div>
+
+<div class="activity-status">
+    ✓
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- Technology card -->
+
+<div class="technology-card">
+
+
+<div class="card-heading">
+
+<div>
+
+<h3>
+    Technology Stack
+</h3>
+
+<p>
+    Project components
+</p>
+
+</div>
+
+</div>
+
+
+<div class="tech-item">
+
+<span class="tech-logo purple-bg">
+    F
+</span>
+
+<div>
+
+<strong>
+    Flask
+</strong>
+
+<small>
+    Web backend
+</small>
+
+</div>
+
+<span class="tech-check">
+    ✓
+</span>
+
+</div>
+
+
+<div class="tech-item">
+
+<span class="tech-logo green-bg">
+    L
+</span>
+
+<div>
+
+<strong>
+    LangChain
+</strong>
+
+<small>
+    LLM framework
+</small>
+
+</div>
+
+<span class="tech-check">
+    ✓
+</span>
+
+</div>
+
+
+<div class="tech-item">
+
+<span class="tech-logo cyan-bg">
+    G
+</span>
+
+<div>
+
+<strong>
+    LangGraph
+</strong>
+
+<small>
+    Agent framework
+</small>
+
+</div>
+
+<span class="tech-check">
+    ✓
+</span>
+
+</div>
+
+
+<div class="tech-item">
+
+<span class="tech-logo pink-bg">
+    G
+</span>
+
+<div>
+
+<strong>
+    Groq
+</strong>
+
+<small>
+    AI inference
+</small>
+
+</div>
+
+<span class="tech-check">
+    ✓
+</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- SETTINGS PAGE -->
+<!-- ================================================= -->
+
+<section
+    id="settingsPage"
+    class="page"
+>
+
+
+<div class="dashboard-page">
+
+
+<div class="page-heading">
+
+<div>
+
+<span class="page-label">
+    CONFIGURATION
+</span>
+
+<h2>
+    Settings
+</h2>
+
+<p>
+    Customize your AI assistant.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="settings-layout">
+
+
+<div class="settings-main">
+
+
+<div class="settings-section">
+
+
+<div class="settings-section-title">
+
+<div class="settings-icon">
+    🎨
+</div>
+
+<div>
+
+<h3>
+    Appearance
+</h3>
+
+<p>
+    Customize the interface.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Dark Mode
+</strong>
+
+<span>
+    Use the dark glassmorphism interface.
+</span>
+
+</div>
+
+
+<label class="switch">
+
+<input
+    type="checkbox"
+    id="themeToggle"
+    checked
+    onchange="toggleTheme()"
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+
+</div>
+
+
+<div class="settings-section">
+
+
+<div class="settings-section-title">
+
+<div class="settings-icon">
+    🧠
+</div>
+
+<div>
+
+<h3>
+    AI Configuration
+</h3>
+
+<p>
+    Current model configuration.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Model
+</strong>
+
+<span>
+    Large language model
+</span>
+
+</div>
+
+<div class="setting-value">
+    GPT-OSS 20B
+</div>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Provider
+</strong>
+
+<span>
+    AI inference provider
+</span>
+
+</div>
+
+<div class="setting-value">
+    Groq
+</div>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Temperature
+</strong>
+
+<span>
+    Response creativity
+</span>
+
+</div>
+
+<div class="setting-value">
+    0
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="settings-section">
+
+
+<div class="settings-section-title">
+
+<div class="settings-icon">
+    💾
+</div>
+
+<div>
+
+<h3>
+    Memory
+</h3>
+
+<p>
+    Conversation memory status.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="memory-status">
+
+<div class="memory-animation">
+
+    <div></div>
+    <div></div>
+    <div></div>
+
+</div>
+
+
+<div>
+
+<strong>
+    Conversation Memory
+</strong>
+
+<span>
+    LangGraph InMemorySaver is active.
+</span>
+
+</div>
+
+
+<div class="enabled">
+    ENABLED
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<div class="settings-preview">
+
+
+<div class="preview-glow"></div>
+
+
+<div class="preview-avatar">
+    🤖
+</div>
+
+
+<h3>
+    AI Assistant
+</h3>
+
+
+<p>
+    Your intelligent workspace
+</p>
+
+
+<div class="preview-status">
+
+<span></span>
+
+Online
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
