@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | AI Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            width: 320px;
+            box-shadow: 0 4px 20px #0001;
+        }
+        h2 { text-align: center; }
+        input, button {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 7px;
+        }
+        input { border: 1px solid #ccc; }
+        button {
+            background: #f0c419;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .message { color: #c0392b; font-size: 14px; }
+        a { color: #444; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Create Account</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <input name="username" placeholder="Choose a username"
+                   required minlength="3" maxlength="40">
+            <input name="password" type="password"
+                   placeholder="Choose a password"
+                   required minlength="8">
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <p>Already registered?
+            <a href="{{ url_for('login') }}">Login</a>
+        </p>
+    </div>
+</body>
+</html>
