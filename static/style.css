@@ -3162,3 +3162,25 @@ body.light textarea {
     }
 
 }
+
+
+.message.ai a {
+    color: #60a5fa;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+
+.message.ai a:hover {
+    color: #93c5fd;
+}
+
+.chat-image {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: 12px;
+}
